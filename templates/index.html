@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Debate Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI-Powered Debate Simulator</h1>
+            <p>Watch AI personas battle it out!</p>
+        </header>
+
+        <form method="POST" class="input-form">
+            <input type="text" id="topic" name="topic" placeholder="Enter a debate topic..." required>
+            <button type="submit" class="btn">Start Debate</button>
+        </form>
+
+        <div id="loading" class="loading hidden">Generating Debate...</div>
+
+        {% if topic %}
+            <section class="debate-container">
+                <h2 class="topic-title">{{ topic }}</h2>
+                <div class="debate-grid">
+                    {% for speaker, argument in debate %}
+                        <div class="argument-card {{ speaker.lower() }}">
+                            <h3>Round {{ loop.index0 // 2 + 1 }} - {{ speaker }}</h3>
+                            <p>{{ argument }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('loading').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
